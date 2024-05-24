@@ -288,6 +288,24 @@ export const KeycodePane: FC = () => {
     );
   };
 
+
+  const strategems = require.context('../../../assets/images/strategems')
+  const renderMacros = (keycode: IKeycode, index: number) => {
+    const {code, title, name} = keycode;
+    return (
+      <Keycode
+        key={code}
+        disabled={!keycodeInMaster(code, basicKeyToByte) && code != 'text'}
+        onClick={() => handleClick(code, index)}
+        onMouseOver={() => setMouseOverDesc(title ? `${code}: ${title}` : code)}
+        onMouseOut={() => setMouseOverDesc(null)}
+      >
+        <KeycodeContent>{strategems(name)}</KeycodeContent>
+      </Keycode>
+    );
+  };
+
+
   const renderCustomKeycode = () => {
     return (
       <CustomKeycode
@@ -308,12 +326,15 @@ export const KeycodePane: FC = () => {
     const keycodeListItems = keycodes.map((keycode, i) =>
       renderKeycode(keycode, i),
     );
+    const macroList = keycodes.map((keycode, i) =>
+      renderMacros(keycode, i),
+    );
     switch (selectedCategory) {
       case 'macro': {
         return !macros.isFeatureSupported ? (
           renderMacroError()
         ) : (
-          <KeycodeList>{keycodeListItems}</KeycodeList>
+          <KeycodeList>{macroList}</KeycodeList>
         );
       }
       case 'special': {
