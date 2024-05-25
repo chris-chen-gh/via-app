@@ -81,6 +81,13 @@ const KeycodeContent = styled.div`
   overflow: hidden;
 `;
 
+const MacroContent = styled.div<{ image_path?: string }>`
+  width: 40px;
+  height: 40px;
+  position: relative;
+  background-image: url(${props => props.image_path});
+`;
+
 const CustomKeycode = styled(Button)`
   width: 50px;
   height: 50px;
@@ -288,6 +295,22 @@ export const KeycodePane: FC = () => {
     );
   };
 
+  const renderMacros = (keycode: IKeycode, index: number) => {
+    const {code, title, name} = keycode;
+    return (
+      // I need to find a way to insert image in background with no key
+      <Keycode
+        key={code}
+        disabled={!keycodeInMaster(code, basicKeyToByte) && code != 'text'}
+        onClick={() => handleClick(code, index)}
+        onMouseOver={() => setMouseOverDesc(title ? `${code}: ${title}` : code)}
+        onMouseOut={() => setMouseOverDesc(null)}
+      >
+        <MacroContent image_path={'/strategems/'+index+'.webp'} />
+      </Keycode>
+    );
+  };
+
   const renderCustomKeycode = () => {
     return (
       <CustomKeycode
@@ -308,12 +331,15 @@ export const KeycodePane: FC = () => {
     const keycodeListItems = keycodes.map((keycode, i) =>
       renderKeycode(keycode, i),
     );
+    const macroListItems = keycodes.map((keycode, i) =>
+      renderMacros(keycode, i),
+    );
     switch (selectedCategory) {
       case 'macro': {
         return !macros.isFeatureSupported ? (
           renderMacroError()
         ) : (
-          <KeycodeList>{keycodeListItems}</KeycodeList>
+          <KeycodeList>{macroListItems}</KeycodeList>
         );
       }
       case 'special': {
