@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {iconExists} from '../../../utils/keyboard-rendering';
 
 export const KeycapContainer = styled.div`
   position: absolute;
@@ -40,4 +41,9 @@ export const CanvasContainerBG = styled.div<{}>``;
 export const CanvasContainer = styled.div<{}>`
   box-shadow: inset -1px -1px 0 rgb(0 0 0 / 20%),
     inset 1px 1px 0 rgb(255 255 255 / 10%);
+`;
+export const CanvasImageContainer = styled.div<{ image_path: string }>`
+  box-shadow: inset -1px -1px 0 rgb(0 0 0 / 20%),
+    inset 1px 1px 0 rgb(255 255 255 / 10%);
+  background-image: url(${props => props.image_path});
 `;

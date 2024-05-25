@@ -2,13 +2,13 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {shallowEqual} from 'react-redux';
 import {TestKeyState} from 'src/types/types';
 import {getDarkenedColor} from 'src/utils/color-math';
-import {CSSVarObject} from 'src/utils/keyboard-rendering';
+import {CSSVarObject, iconExists} from 'src/utils/keyboard-rendering';
 import styled from 'styled-components';
 import {Keycap2DTooltip} from '../../inputs/tooltip';
 import {ComboKeycap} from './combo-keycap';
 import {EncoderKey} from './encoder';
 import {
-  CanvasContainer,
+  CanvasContainer, CanvasImageContainer,
   KeycapContainer,
   TestOverlay,
   TooltipContainer,
@@ -18,6 +18,7 @@ import {
   TwoStringKeycapProps,
   DisplayMode,
 } from 'src/types/keyboard-rendering';
+import {MacroContent} from '../../panes/configure-panes/keycode';
 
 const getMacroData = ({
   macroExpression,
@@ -395,15 +396,23 @@ export const Keycap: React.FC<TwoStringKeycapProps> = React.memo((props) => {
               }}
             ></TestOverlay>
           ) : null}
-          <CanvasContainer
-            style={{
+          {macroData && macroData.length && iconExists(macroData) ?
+            (<CanvasImageContainer image_path={macroData}
+              style={{
               borderRadius: 4,
-              background: props.color.c,
               height: '100%',
             }}
-          >
-            <canvas ref={canvasRef} style={{}} />
-          </CanvasContainer>
+            />) : 
+            (<CanvasContainer
+              style={{
+                borderRadius: 4,
+                background: props.color.c,
+                height: '100%',
+              }}
+            >
+              <canvas ref={canvasRef} style={{}} />
+            </CanvasContainer>)}
+
         </GlowContainer>
         {(macroData || overflowsTexture) && (
           <TooltipContainer $rotate={rotation[2]}>

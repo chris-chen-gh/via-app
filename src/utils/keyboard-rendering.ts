@@ -448,6 +448,17 @@ const getLabelOffsets = (
   return [topLabelOffset, bottomLabelOffset];
 };
 
+export const iconExists = (image_path: string) => {
+  const http = new XMLHttpRequest();
+  http.open('HEAD', image_path, false);
+  try {
+    http.send();
+  } catch {
+
+  }
+  return http.status != 404;
+}
+
 export const getLabel = (
   keycodeByte: number,
   width: number,
@@ -487,7 +498,7 @@ export const getLabel = (
   let macroExpression: string | undefined;
   if (isMacroKeycodeByte(keycodeByte, basicKeyToByte)) {
     const macroKeycodeIdx = getMacroKeycodeIndex(keycodeByte, basicKeyToByte);
-    macroExpression = macroExpressions[macroKeycodeIdx];
+    macroExpression = '/strategems/'+macroKeycodeIdx+'.webp';
     tooltipLabel = macroExpression || '';
   }
 

@@ -44,6 +44,7 @@ import {
   getDisableFastRemap,
 } from 'src/store/settingsSlice';
 import {getNextKey} from 'src/utils/keyboard-rendering';
+import fs from 'fs';
 const KeycodeList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 64px);
@@ -81,7 +82,7 @@ const KeycodeContent = styled.div`
   overflow: hidden;
 `;
 
-const MacroContent = styled.div<{ image_path?: string }>`
+export const MacroContent = styled.div<{ image_path?: string }>`
   width: 40px;
   height: 40px;
   position: relative;
@@ -298,7 +299,6 @@ export const KeycodePane: FC = () => {
   const renderMacros = (keycode: IKeycode, index: number) => {
     const {code, title, name} = keycode;
     return (
-      // I need to find a way to insert image in background with no key
       <Keycode
         key={code}
         disabled={!keycodeInMaster(code, basicKeyToByte) && code != 'text'}

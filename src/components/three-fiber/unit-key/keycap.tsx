@@ -11,6 +11,8 @@ import {
 import {TestKeyState} from 'src/types/types';
 import * as THREE from 'three';
 import {KeycapTooltip} from '../../inputs/tooltip';
+import {iconExists} from '../../../utils/keyboard-rendering';
+import {MacroContent} from '../../panes/configure-panes/keycode';
 
 const getMacroData = ({
   macroExpression,
